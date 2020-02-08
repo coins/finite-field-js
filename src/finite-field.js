@@ -1,13 +1,10 @@
-// import { assert } from '../utils.js'
 import { mod_inv } from '../../numbers-js/src/numbers.js';
 
-function _n(other) {
-    return BigInt((other.n || other.n === 0n || other.n === 0) ? other.n : other)
-}
-
-// An abstract class for field elements in FQ. Wrap a number in this class,
-// and it becomes a field element.
-// subclasses need to implement `FQ.modulus`
+/** 
+* An abstract class for field elements in FQ. Wrap a number in this class,
+* and it becomes a field element. Subclasses have to implement `FQ.modulus`.
+* 
+*/
 export class _FQ {
 
     constructor(n) {
@@ -80,3 +77,7 @@ export class _FQ {
     }
 }
 
+
+function _n(other) {
+    return BigInt((other.n || other.n === 0n || other.n === 0) ? other.n : other)
+}

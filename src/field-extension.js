@@ -1,44 +1,3 @@
-
-// Utility methods for polynomial math
-function deg(p) {
-    let d = p.length - 1
-    while ((p[d] === 0n || p[d].n === 0n) && d) {
-        d -= 1
-    }
-    return d
-}
-
-function zip(a, b) {
-    const r = []
-    const len = Math.min(a.length, b.length);
-    for (let i = 0; i < len; i++) {
-        r.push([a[i], b[i]])
-    }
-    return r
-}
-
-function zeros(n) {
-    const v = []
-    for (let i = 0; i < n; i++) {
-        v.push(0n)
-    }
-    return v
-}
-
-function poly_rounded_div(a, b, FQ) {
-    let dega = deg(a)
-    let degb = deg(b)
-    let temp = a.map(x => new FQ(x))
-    let o = a.map(x => new FQ(0n))
-    for (let i = dega - degb; i > -1; i--) {
-        o[i] = o[i].add(temp[degb + i].div(b[degb]))
-        for (let c = 0; c < degb + 1; c++) {
-            temp[c + i] = temp[c + i].sub(o[c])
-        }
-    }
-    return o.slice(0, deg(o) + 1)
-}
-
 // A class for elements in extension fields
 export class _FQP {
 
@@ -57,7 +16,7 @@ export class _FQP {
     }
 
     sub(other) {
-        assert isinstance(other, this.class)
+        if (!isinstance(other, this.class)) throw Error();
         return new this.constructor(zip(this.coeffs, other.coeffs).map(e => e[0].sub(e[1])))
     }
 
@@ -161,4 +120,44 @@ export class _FQP {
         return new this.prototype.constructor(zeros(this.prototype.degree))
     }
 
+}
+
+// Utility methods for polynomial math
+function deg(p) {
+    let d = p.length - 1
+    while ((p[d] === 0n || p[d].n === 0n) && d) {
+        d -= 1
+    }
+    return d
+}
+
+function zip(a, b) {
+    const r = []
+    const len = Math.min(a.length, b.length);
+    for (let i = 0; i < len; i++) {
+        r.push([a[i], b[i]])
+    }
+    return r
+}
+
+function zeros(n) {
+    const v = []
+    for (let i = 0; i < n; i++) {
+        v.push(0n)
+    }
+    return v
+}
+
+function poly_rounded_div(a, b, FQ) {
+    let dega = deg(a)
+    let degb = deg(b)
+    let temp = a.map(x => new FQ(x))
+    let o = a.map(x => new FQ(0n))
+    for (let i = dega - degb; i > -1; i--) {
+        o[i] = o[i].add(temp[degb + i].div(b[degb]))
+        for (let c = 0; c < degb + 1; c++) {
+            temp[c + i] = temp[c + i].sub(o[c])
+        }
+    }
+    return o.slice(0, deg(o) + 1)
 }
