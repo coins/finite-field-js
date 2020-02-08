@@ -94,7 +94,7 @@ export class FieldElement {
 
     /**
      * Negate this element.
-     * @return {FieldElement} This element squared.
+     * @return {FieldElement} The negative element.
      */
     neg() {
         return new this.constructor(-this.n)
@@ -112,7 +112,7 @@ export class FieldElement {
      * Square this element.
      * @return {FieldElement} This element squared.
      */
-    squared() {
+    square() {
         return this.mul(this)
     }
 
