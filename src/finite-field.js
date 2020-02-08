@@ -2,26 +2,32 @@ import { mod_inv } from '../../numbers-js/src/numbers.js';
 
 
 /** 
- * Instantiate a FieldElement class for a given modulus
+ * Instantiate a FieldElement with a particular modulus
  * @param {BigInt} m - The field's modulus
  * @return {FieldElement} - The field element class
  *
  */
 export function instantiateField(m) {
 
-    return class Field extends FieldElement {
+    /**
+    * Class for finite field elements.
+    * @extends AbstractFieldElement
+    */
+    class FieldElement extends AbstractFieldElement {
 
         static get modulus() {
             return m
         }
     }
+
+    return FieldElement
 }
 
 /** 
- * An abstract class for finite field elements.
- *
+ * Abstract class for finite field elements.
+ * To instantiate a subclass use `instantiateField(m)`.
  */
-export class FieldElement {
+export class AbstractFieldElement {
 
     /**
      * Create a field element.
@@ -36,8 +42,8 @@ export class FieldElement {
 
     /**
      * Add a field element to this element.
-     * @param {FieldElement} other - The other element.
-     * @return {FieldElement} The sum of both elements.
+     * @param {AbstractFieldElement} other - The other element.
+     * @return {AbstractFieldElement} The sum of both elements.
      */
     add(other) {
         const on = _n(other)
@@ -46,8 +52,8 @@ export class FieldElement {
 
     /**
      * Multiply a field element by this element.
-     * @param {FieldElement} other - The other element.
-     * @return {FieldElement} The product of both elements.
+     * @param {AbstractFieldElement} other - The other element.
+     * @return {AbstractFieldElement} The product of both elements.
      */
     mul(other) {
         const on = _n(other)
@@ -56,8 +62,8 @@ export class FieldElement {
 
     /**
      * Subtract a field element from this element.
-     * @param {FieldElement} other - The other element.
-     * @return {FieldElement} The difference of both elements.
+     * @param {AbstractFieldElement} other - The other element.
+     * @return {AbstractFieldElement} The difference of both elements.
      */
     sub(other) {
         const on = _n(other)
@@ -66,8 +72,8 @@ export class FieldElement {
 
     /**
      * Multiply this element by another element's inverse.
-     * @param {FieldElement} other - The other element.
-     * @return {FieldElement} The quotient of both elements.
+     * @param {AbstractFieldElement} other - The other element.
+     * @return {AbstractFieldElement} The quotient of both elements.
      */
     div(other) {
         const on = _n(other)
@@ -77,7 +83,7 @@ export class FieldElement {
     /**
      * Modular exponentiation with this element as base.
      * @param {BigInt} exponent - The exponent.
-     * @return {FieldElement} This element raised to the power of the exponent.
+     * @return {AbstractFieldElement} This element raised to the power of the exponent.
      */
     pow(exponent) {
         if (exponent == 0n)
@@ -94,7 +100,7 @@ export class FieldElement {
 
     /**
      * Negate this element.
-     * @return {FieldElement} The negative element.
+     * @return {AbstractFieldElement} The negative element.
      */
     neg() {
         return new this.constructor(-this.n)
@@ -102,7 +108,7 @@ export class FieldElement {
 
     /**
      * Compute the modular inverse of this element.
-     * @return {FieldElement} The inverted element.
+     * @return {AbstractFieldElement} The inverted element.
      */
     inv() {
         return new this.constructor(mod_inv(this.n, this.constructor.modulus))
@@ -110,7 +116,7 @@ export class FieldElement {
 
     /**
      * Square this element.
-     * @return {FieldElement} This element squared.
+     * @return {AbstractFieldElement} This element squared.
      */
     square() {
         return this.mul(this)
@@ -135,7 +141,7 @@ export class FieldElement {
     }
 
     /**
-     * The additive neutral element.
+     * The neutral element of addition.
      * @return {boolean} Result of the comparison.
      */
     static zero() {
@@ -143,7 +149,7 @@ export class FieldElement {
     }
 
     /**
-     * The multiplicative neutral element.
+     * The neutral element of multiplication.
      * @return {boolean} Result of the comparison.
      */
     static one() {
