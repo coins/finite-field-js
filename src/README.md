@@ -1,5 +1,5 @@
-# Finite Field
-Experimental finite field implementation
+# finite-field-js
+Finite field implementation using the native BigInt arithmetic.
 
 ## Usage
 ```javascript
