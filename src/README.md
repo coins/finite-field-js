@@ -12,6 +12,6 @@ class FQ extends _FQ {
 }
 
 const a = new FQ(2n);
-const b = new FQ(2n);
-a.add(b);
+const b = new FQ(13n);
+console.log( a.add(b) )
 ```
