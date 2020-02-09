@@ -1,26 +1,4 @@
-import { mod_inv } from '../../numbers-js/src/numbers.js';
-
-
-/** 
- * Instantiate a FieldElement class with a particular modulus.
- * @param {BigInt} m - The field's modulus.
- * @return {FieldElement} - The field element class.
- */
-export function instantiateField(m) {
-
-    /**
-    * Class for finite field elements.
-    * @extends AbstractFieldElement
-    */
-    class FieldElement extends AbstractFieldElement {
-
-        static get modulus() {
-            return m
-        }
-    }
-
-    return FieldElement
-}
+import { mod_inv, mod_sqrt } from '../../numbers-js/src/numbers.js';
 
 /** 
  * Abstract class for finite field elements.
@@ -98,6 +76,15 @@ export class AbstractFieldElement {
     }
 
     /**
+     * Modular square root
+     * @param {BigInt} exponent - The exponent.
+     * @return {AbstractFieldElement} This element raised to the power of the exponent.
+     */
+    sqrt() {
+        return new this.constructor(mod_sqrt(this.n, this.constructor.modulus))
+    }
+
+    /**
      * Negate this element.
      * @return {AbstractFieldElement} The negative element.
      */
@@ -126,7 +113,7 @@ export class AbstractFieldElement {
      * Compare if another element is equal to this element.
      * @return {boolean} Result of the comparison.
      */
-    eq(other) {
+    equals(other) {
         const on = _n(other)
         return this.n == on
     }
@@ -135,8 +122,8 @@ export class AbstractFieldElement {
      * Compare if another element is not equal to this element.
      * @return {boolean} Result of the comparison.
      */
-    ne(other) {
-        return !this.eq(other)
+    notEquals(other) {
+        return !this.equals(other)
     }
 
     /**
@@ -163,6 +150,28 @@ export class AbstractFieldElement {
     static get modulus() {
         throw 'Called an abstract method!';
     }
+
+}
+
+/** 
+ * Helper method to instantiate a FieldElement class with a particular modulus.
+ * @param {BigInt} m - The field's modulus.
+ * @return {FieldElement} - The field element class.
+ */
+export function instantiateField(m) {
+
+    /**
+     * Class for finite field elements.
+     * @extends AbstractFieldElement
+     */
+    class FieldElement extends AbstractFieldElement {
+
+        static get modulus() {
+            return m
+        }
+    }
+
+    return FieldElement
 }
 
 
