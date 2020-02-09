@@ -2,10 +2,9 @@ import { mod_inv } from '../../numbers-js/src/numbers.js';
 
 
 /** 
- * Instantiate a FieldElement with a particular modulus
- * @param {BigInt} m - The field's modulus
- * @return {FieldElement} - The field element class
- *
+ * Instantiate a FieldElement class with a particular modulus.
+ * @param {BigInt} m - The field's modulus.
+ * @return {FieldElement} - The field element class.
  */
 export function instantiateField(m) {
 
