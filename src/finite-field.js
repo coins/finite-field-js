@@ -1,4 +1,4 @@
-import { mod_inv, mod_exp, mod_sqrt } from '../../numbers-js/src/numbers.js';
+import { mod_inv, mod_exp, mod_sqrt } from '../../numbers-js/numbers.js';
 
 /** 
  * Abstract class for finite field elements.
@@ -23,18 +23,8 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} The sum of both elements.
      */
     add(other) {
-        const on = _n(other)
-        return new this.constructor(this.n + on)
-    }
-
-    /**
-     * Multiply a field element by this element.
-     * @param {AbstractFieldElement} other - The other element.
-     * @return {AbstractFieldElement} The product of both elements.
-     */
-    mul(other) {
-        const on = _n(other)
-        return new this.constructor(this.n * on)
+        const n = _n(other)
+        return new this.constructor(this.n + n)
     }
 
     /**
@@ -43,8 +33,18 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} The difference of both elements.
      */
     sub(other) {
-        const on = _n(other)
-        return new this.constructor(this.n - on)
+        const n = _n(other)
+        return new this.constructor(this.n - n)
+    }
+
+    /**
+     * Multiply a field element by this element.
+     * @param {AbstractFieldElement} other - The other element.
+     * @return {AbstractFieldElement} The product of both elements.
+     */
+    mul(other) {
+        const n = _n(other)
+        return new this.constructor(this.n * n)
     }
 
     /**
@@ -53,8 +53,8 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} The quotient of both elements.
      */
     div(other) {
-        const on = _n(other)
-        const div = this.n * mod_inv(on, this.constructor.modulus)
+        const n = _n(other)
+        const div = this.n * mod_inv(n, this.constructor.modulus)
         return new this.constructor(div)
     }
 
@@ -66,16 +66,6 @@ export class AbstractFieldElement {
     pow(exponent) {
         const pow = mod_exp(this.n, exponent, this.constructor.modulus)
         return new this.constructor(pow)
-    }
-
-    /**
-     * Modular square root
-     * @param {BigInt} exponent - The exponent.
-     * @return {AbstractFieldElement} This element raised to the power of the exponent.
-     */
-    sqrt() {
-        const sqrt = mod_sqrt(this.n, this.constructor.modulus)
-        return new this.constructor(sqrt)
     }
 
     /**
@@ -104,14 +94,23 @@ export class AbstractFieldElement {
         return this.mul(this)
     }
 
+    /**
+     * Modular square root
+     * @param {BigInt} exponent - The exponent.
+     * @return {AbstractFieldElement} This element raised to the power of the exponent.
+     */
+    sqrt() {
+        const sqrt = mod_sqrt(this.n, this.constructor.modulus)
+        return new this.constructor(sqrt)
+    }
 
     /**
      * Compare if another element is equal to this element.
      * @return {boolean} Result of the comparison.
      */
     equals(other) {
-        const on = _n(other)
-        return this.n == on
+        const n = _n(other)
+        return this.n === n
     }
 
     /**
@@ -144,7 +143,7 @@ export class AbstractFieldElement {
      * 
      */
     static get modulus() {
-        throw 'Called an abstract method!';
+        throw 'Error: abstract method!';
     }
 
 }
@@ -162,6 +161,11 @@ export function instantiateField(m) {
      */
     class FieldElement extends AbstractFieldElement {
 
+        /** 
+         * The field's modulus. 
+         * @return {BigInt} - The modulus.
+         * 
+         */
         static get modulus() {
             return m
         }
