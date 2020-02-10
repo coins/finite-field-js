@@ -1,4 +1,4 @@
-import { mod_inv, mod_sqrt } from '../../numbers-js/src/numbers.js';
+import { mod_inv, mod_exp, mod_sqrt } from '../../numbers-js/src/numbers.js';
 
 /** 
  * Abstract class for finite field elements.
@@ -63,16 +63,7 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} This element raised to the power of the exponent.
      */
     pow(exponent) {
-        if (exponent == 0n)
-            return new this.constructor(1n)
-        if (exponent == 1n)
-            return new this.constructor(this.n)
-        if (exponent < 0n)
-            return this.inv().pow(-exponent)
-        if (exponent % 2n == 0n)
-            return this.mul(this).pow(exponent / 2n)
-        else
-            return this.mul(this).pow(exponent / 2n).mul(this)
+        return new this.constructor( mod_exp(this.n, exponent, this.constructor.modulus) )
     }
 
     /**
