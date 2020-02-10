@@ -54,7 +54,8 @@ export class AbstractFieldElement {
      */
     div(other) {
         const on = _n(other)
-        return new this.constructor(this.n * mod_inv(on, this.constructor.modulus))
+        const div = this.n * mod_inv(on, this.constructor.modulus)
+        return new this.constructor(div)
     }
 
     /**
@@ -63,7 +64,8 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} This element raised to the power of the exponent.
      */
     pow(exponent) {
-        return new this.constructor( mod_exp(this.n, exponent, this.constructor.modulus) )
+        const pow = mod_exp(this.n, exponent, this.constructor.modulus)
+        return new this.constructor(pow)
     }
 
     /**
@@ -72,7 +74,8 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} This element raised to the power of the exponent.
      */
     sqrt() {
-        return new this.constructor(mod_sqrt(this.n, this.constructor.modulus))
+        const sqrt = mod_sqrt(this.n, this.constructor.modulus)
+        return new this.constructor(sqrt)
     }
 
     /**
@@ -80,7 +83,8 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} The negative element.
      */
     neg() {
-        return new this.constructor(-this.n)
+        const negative = -this.n
+        return new this.constructor(negative)
     }
 
     /**
@@ -88,7 +92,8 @@ export class AbstractFieldElement {
      * @return {AbstractFieldElement} The inverted element.
      */
     inv() {
-        return new this.constructor(mod_inv(this.n, this.constructor.modulus))
+        const inverse = mod_inv(this.n, this.constructor.modulus)
+        return new this.constructor(inverse)
     }
 
     /**
@@ -165,7 +170,11 @@ export function instantiateField(m) {
     return FieldElement
 }
 
-
+/** 
+ * Helper method to get a FieldElement's BigInt.
+ * @param {FieldElement} other - The other field.
+ * @return {BigInt} - The field element's BigInt.
+ */
 function _n(other) {
     return BigInt((other.n || other.n === 0n || other.n === 0) ? other.n : other)
 }
