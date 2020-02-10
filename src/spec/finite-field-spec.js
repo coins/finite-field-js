@@ -33,8 +33,6 @@ describe('A FieldElement', function() {
         })
     })
 
-
-
     describe('has unary operations', function() {
 
         it('can negate itself', function() {
