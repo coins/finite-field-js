@@ -3,8 +3,9 @@ import { mod_inv, mod_exp, mod_sqrt } from '../../numbers-js/numbers.js';
 /** 
  * Abstract class for finite field elements.
  * To instantiate a subclass use `instantiateField(m)`.
+ * @private
  */
-export class AbstractFieldElement {
+class AbstractFieldElement {
 
     /**
      * Create a field element.
@@ -19,8 +20,8 @@ export class AbstractFieldElement {
 
     /**
      * Add a field element to this element.
-     * @param {AbstractFieldElement} other - The other element.
-     * @return {AbstractFieldElement} The sum of both elements.
+     * @param {FieldElement} other - The other element.
+     * @return {FieldElement} The sum of both elements.
      */
     add(other) {
         const n = _n(other)
@@ -29,8 +30,8 @@ export class AbstractFieldElement {
 
     /**
      * Subtract a field element from this element.
-     * @param {AbstractFieldElement} other - The other element.
-     * @return {AbstractFieldElement} The difference of both elements.
+     * @param {FieldElement} other - The other element.
+     * @return {FieldElement} The difference of both elements.
      */
     sub(other) {
         const n = _n(other)
@@ -39,8 +40,8 @@ export class AbstractFieldElement {
 
     /**
      * Multiply a field element by this element.
-     * @param {AbstractFieldElement} other - The other element.
-     * @return {AbstractFieldElement} The product of both elements.
+     * @param {FieldElement} other - The other element.
+     * @return {FieldElement} The product of both elements.
      */
     mul(other) {
         const n = _n(other)
@@ -49,8 +50,8 @@ export class AbstractFieldElement {
 
     /**
      * Multiply this element by another element's inverse.
-     * @param {AbstractFieldElement} other - The other element.
-     * @return {AbstractFieldElement} The quotient of both elements.
+     * @param {FieldElement} other - The other element.
+     * @return {FieldElement} The quotient of both elements.
      */
     div(other) {
         const n = _n(other)
@@ -61,7 +62,7 @@ export class AbstractFieldElement {
     /**
      * Modular exponentiation with this element as base.
      * @param {BigInt} exponent - The exponent.
-     * @return {AbstractFieldElement} This element raised to the power of the exponent.
+     * @return {FieldElement} This element raised to the power of the exponent.
      */
     pow(exponent) {
         const pow = mod_exp(this.n, exponent, this.constructor.modulus)
@@ -70,7 +71,7 @@ export class AbstractFieldElement {
 
     /**
      * Negate this element.
-     * @return {AbstractFieldElement} The negative element.
+     * @return {FieldElement} The negative element.
      */
     neg() {
         const negative = -this.n
@@ -79,7 +80,7 @@ export class AbstractFieldElement {
 
     /**
      * Compute the modular inverse of this element.
-     * @return {AbstractFieldElement} The inverted element.
+     * @return {FieldElement} The inverted element.
      */
     inv() {
         const inverse = mod_inv(this.n, this.constructor.modulus)
@@ -88,7 +89,7 @@ export class AbstractFieldElement {
 
     /**
      * Square this element.
-     * @return {AbstractFieldElement} This element squared.
+     * @return {FieldElement} This element squared.
      */
     square() {
         return this.mul(this)
@@ -96,8 +97,7 @@ export class AbstractFieldElement {
 
     /**
      * Modular square root
-     * @param {BigInt} exponent - The exponent.
-     * @return {AbstractFieldElement} This element raised to the power of the exponent.
+     * @return {FieldElement} This element raised to the power of the exponent.
      */
     sqrt() {
         const sqrt = mod_sqrt(this.n, this.constructor.modulus)
