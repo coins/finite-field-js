@@ -122,6 +122,16 @@ class AbstractFieldElement {
     }
 
     /**
+     * Encode this element in hex.
+     * @return {String} - The hex string.
+     */
+    toHex(){
+        let hex = this.n.toString(16)
+        if (hex.length % 2) { hex = '0' + hex }
+        return hex
+    }
+
+    /**
      * The neutral element of addition.
      * @return {boolean} Result of the comparison.
      */
@@ -140,7 +150,6 @@ class AbstractFieldElement {
     /** 
      * The field's modulus. Any subclass has to implement this.
      * @return {BigInt} - The modulus
-     * 
      */
     static get modulus() {
         throw 'Error: abstract method!';
@@ -168,6 +177,14 @@ export function instantiateField(m) {
          */
         static get modulus() {
             return m
+        }
+
+        /**
+         * The order of the group of field elements.
+         * @return {BigInt} - The order.
+         */
+        static get order() {
+            return m - 1n 
         }
     }
 
