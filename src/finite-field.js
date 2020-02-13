@@ -12,7 +12,7 @@ class AbstractFieldElement {
      * @param {number} n - The element's integer.
      */
     constructor(n) {
-        n = _n(n)
+        n = toBigInt(n)
         this.n = n % this.constructor.modulus
         if (this.n < 0) // Fix sign of x mod n for negative x
             this.n += this.constructor.modulus
@@ -24,7 +24,7 @@ class AbstractFieldElement {
      * @return {FieldElement} The sum of both elements.
      */
     add(other) {
-        const n = _n(other)
+        const n = toBigInt(other)
         return new this.constructor(this.n + n)
     }
 
@@ -34,7 +34,7 @@ class AbstractFieldElement {
      * @return {FieldElement} The difference of both elements.
      */
     sub(other) {
-        const n = _n(other)
+        const n = toBigInt(other)
         return new this.constructor(this.n - n)
     }
 
@@ -44,7 +44,7 @@ class AbstractFieldElement {
      * @return {FieldElement} The product of both elements.
      */
     mul(other) {
-        const n = _n(other)
+        const n = toBigInt(other)
         return new this.constructor(this.n * n)
     }
 
@@ -54,7 +54,7 @@ class AbstractFieldElement {
      * @return {FieldElement} The quotient of both elements.
      */
     div(other) {
-        const n = _n(other)
+        const n = toBigInt(other)
         const div = this.n * mod_inv(n, this.constructor.modulus)
         return new this.constructor(div)
     }
@@ -109,7 +109,7 @@ class AbstractFieldElement {
      * @return {boolean} Result of the comparison.
      */
     equals(other) {
-        const n = _n(other)
+        const n = toBigInt(other)
         return this.n === n
     }
 
@@ -179,6 +179,6 @@ export function instantiateField(m) {
  * @param {FieldElement} other - The other field.
  * @return {BigInt} - The field element's BigInt.
  */
-function _n(other) {
+function toBigInt(other) {
     return BigInt((other.n || other.n === 0n || other.n === 0) ? other.n : other)
 }

@@ -1,4 +1,4 @@
-import './jasmine-3.5.0/boot.js'
+
 import { instantiateField } from '../finite-field.js'
 
 describe('A FieldElement', function() {
