@@ -55,7 +55,7 @@ class AbstractFieldElement {
      */
     div(other) {
         const n = toBigInt(other)
-        const div = this.n * mod_inv(n, this.constructor.modulus)
+        const div = this.n * mod_inv(n, this.constructor.modulus) % this.constructor.modulus
         return new this.constructor(div)
     }
 
@@ -152,7 +152,7 @@ class AbstractFieldElement {
      * @return {BigInt} - The modulus.
      */
     static get modulus() {
-        throw 'Error: abstract method!';
+        throw Error('abstract method!')
     }
 
     /**
@@ -160,7 +160,7 @@ class AbstractFieldElement {
      * @return {BigInt} - The order.
      */
     static get order() {
-        throw 'Error: abstract method!';
+        throw Error('abstract method!')
     }
 
 }
@@ -175,6 +175,7 @@ export function instantiateField(m) {
     /**
      * Class for finite field elements.
      * @extends AbstractFieldElement
+     * @public 
      */
     class FieldElement extends AbstractFieldElement {
 
